@@ -1,7 +1,7 @@
 import { TRPCError, initTRPC } from '@trpc/server';
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 import { db } from './db';
-import { token } from '../drizzle/schema';
+import { token } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
 import { CreateWSSContextFnOptions } from '@trpc/server/adapters/ws';
 import { CreateHTTPContextOptions } from '@trpc/server/adapters/standalone';

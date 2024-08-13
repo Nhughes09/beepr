@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
+import { createWSClient, httpBatchLink, httpLink, splitLink, wsLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import type { AppRouter } from '../../apinext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,7 @@ export const trpc = createTRPCReact<AppRouter>();
 
 export const queryClient = new QueryClient();
 
-const httpLink = httpBatchLink({
+const basicHttpLink = httpLink({
   url: 'http://localhost:3001/trpc',
   async headers() {
     const tokens = await AsyncStorage.getItem("auth");
@@ -50,7 +50,7 @@ export const trpcClient = trpc.createClient({
     splitLink<AppRouter>({
       condition: (op) => op.type === 'subscription',
       true: websocketLink,
-      false: httpLink
+      false: basicHttpLink
     })
   ],
 });

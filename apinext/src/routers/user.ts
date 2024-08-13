@@ -1,29 +1,35 @@
 import { observable } from "@trpc/server/observable";
-import { authedProcedure, router } from "../trpc";
+import { authedProcedure, router } from "../utils/trpc";
 import { user } from '../../drizzle/schema';
-import { EventEmitter } from 'events';
+import { redis } from "../utils/redis";
+import { db } from "../utils/db";
+import { eq } from "drizzle-orm";
 
 type User = typeof user.$inferSelect;
-
-const ee = new EventEmitter();
 
 export const userRouter = router({
   me: authedProcedure.query(async ({ ctx }) => {
     return ctx.user;
   }),
+  update: authedProcedure.mutation(async ({ ctx }) => {
+    const u = await db.update(user).set({ location: { latitude: 5, longitude: 5 } }).where(eq(user.id, ctx.user.id)).returning();
+    return u[0];
+  }),
   updates: authedProcedure.subscription(({ ctx }) => {
     // return an `observable` with a callback which is triggered immediately
     return observable<User>((emit) => {
-      const onAdd = (data: User) => {
+      const onUserUpdate = (data: User) => {
         // emit data to client
         emit.next(data);
       };
       // trigger `onAdd()` when `add` is triggered in our event emitter
-      ee.on('add', onAdd);
-      (() => emit.next(ctx.user))()
+      redis.subscribe(`user-${ctx.user.id}`);
+      redis.on("message", onUserUpdate);
+      (() => emit.next(ctx.user))();
       // unsubscribe function when client disconnects or stops subscribing
       return () => {
-        ee.off('add', onAdd);
+        redis.off("message", onUserUpdate);
+        redis.unsubscribe(`user-${ctx.user.id}`);
       };
     });
   }),

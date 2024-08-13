@@ -93,15 +93,18 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-rc.467
         version: 11.0.0-rc.467
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
       drizzle-orm:
         specifier: ^0.32.2
         version: 0.32.2(@opentelemetry/api@1.9.0)(@types/react@18.3.3)(bun-types@1.1.13)(knex@3.1.0(pg@8.11.5))(pg@8.11.5)(postgres@3.4.4)(react@18.2.0)
+      ioredis:
+        specifier: ^5.4.1
+        version: 5.4.1
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
-      wkx:
-        specifier: ^0.5.0
-        version: 0.5.0
     devDependencies:
       drizzle-kit:
         specifier: ^0.23.2
@@ -4559,6 +4562,10 @@ packages:
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
+
+  cors@2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
 
   cosmiconfig@5.2.1:
     resolution: {integrity: sha512-H65gsXo1SKjf8zmrJ67eJk8aIRKV5ff2D4uKZIBZShbhGSpEmsQOPW/SKMKYhSTrqR7ufy6RP69rPogdaPh/kA==}
@@ -14243,6 +14250,11 @@ snapshots:
   core-js@3.37.0: {}
 
   core-util-is@1.0.3: {}
+
+  cors@2.8.5:
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
 
   cosmiconfig@5.2.1:
     dependencies:

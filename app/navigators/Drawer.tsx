@@ -31,6 +31,7 @@ import {
 } from "react-native";
 import { Text } from "@/components/Text";
 import { cx } from "class-variance-authority";
+import { trpc } from "@/utils/trpc";
 
 const Logout = gql`
   mutation Logout {
@@ -49,6 +50,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const { navigate } = useNavigation();
   const [logout, { loading }] = useMutation(Logout);
   const [resend, { loading: resendLoading }] = useMutation(Resend);
+
+  const { mutateAsync } = trpc.user.update.useMutation();
 
   const handleLogout = async () => {
     await logout({
@@ -96,6 +99,11 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
               color="red"
             />
           )}
+          <Button
+            onPress={() => mutateAsync()}
+            title="Test Mutation"
+            color="red"
+          />
           {props.state.routeNames.map((name, index) => (
             <DrawerItem
               name={name}

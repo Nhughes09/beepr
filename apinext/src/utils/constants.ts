@@ -8,8 +8,6 @@ export const DB_USER = process.env.DB_USER ?? "beep";
 
 export const DB_CA = process.env.DB_CA;
 
-export const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
+export const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+
+export const REDIS_PASSWROD = process.env.REDIS_PASSWORD;
