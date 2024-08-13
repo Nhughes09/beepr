@@ -88,6 +88,11 @@ function Beep() {
 
   // const { data: user } = trpc.me.useQuery();
   // console.log(user);
+  trpc.user.updates.useSubscription(undefined, {
+    onData(data) {
+     alert(data)
+    }
+  })
 
   useAutoUpdate();
 

@@ -3,6 +3,8 @@ import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 import { db } from './db';
 import { token } from '../drizzle/schema';
 import { eq } from 'drizzle-orm';
+import { CreateWSSContextFnOptions } from '@trpc/server/adapters/ws';
+import { CreateHTTPContextOptions } from '@trpc/server/adapters/standalone';
  
 /**
  * Initialization of tRPC backend
@@ -27,8 +29,8 @@ export const authedProcedure = t.procedure.use(async function isAuthed(opts) {
   return opts.next({ ctx });
 });
 
-export async function createContext({ req }: FetchCreateContextFnOptions) {
-  const bearerToken = req.headers.get('authorization')?.split(' ')[1];
+export async function createContext(data: CreateHTTPContextOptions | CreateWSSContextFnOptions) {
+  const bearerToken = data.info.connectionParams?.token ?? data.req?.headers.authorization?.split(' ')[1]
 
   if (!bearerToken) {
     return {};
