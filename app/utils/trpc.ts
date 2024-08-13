@@ -9,7 +9,7 @@ export const trpc = createTRPCReact<AppRouter>();
 export const queryClient = new QueryClient();
 
 const basicHttpLink = httpLink({
-  url: 'http://localhost:3001/trpc',
+  url: 'http://localhost:3001',
   async headers() {
     const tokens = await AsyncStorage.getItem("auth");
     if (tokens) {

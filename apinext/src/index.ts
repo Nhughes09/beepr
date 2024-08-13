@@ -10,17 +10,17 @@ const appRouter = router({
 });
 
 const server = createHTTPServer({
-  // middleware: (req, res, next) => {
-  //   res.setHeader('Access-Control-Allow-Origin', '*');
-  //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  //   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  //   if ('OPTIONS' === req.method) {
-  //     res.writeHead(200, {'Content-Type': 'text/plain'});
-  //     res.end('Whatever you wish to send \n')
-  //   } else {
-  //     next();
-  //   }
-  // },
+  middleware: (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if ('OPTIONS' === req.method) {
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Whatever you wish to send \n')
+    } else {
+      next();
+    }
+  },
   // middleware: cors(),
   router: appRouter,
   createContext,
